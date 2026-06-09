@@ -420,9 +420,9 @@ function SuccessScreen({ form, onGoLogin }) {
       </div>
 
       <button className="btn-submit" onClick={onGoLogin}>
-        <i className="ti ti-login" style={{ fontSize:17 }} />
-        Ir para o Login
-      </button>
+  <i className="ti ti-login" style={{ fontSize:17 }} />
+  Ir para o Login
+</button>
     </div>
   );
 }
@@ -709,7 +709,7 @@ function SetupForm({ onSubmit }) {
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────────
-export default function CadastroInicial() {
+export default function CadastroInicial({ onVoltar }) {
   const { isReady, executeSql } = useDatabase(); // ✅ AGORA USANDO O WORKER OFICIAL
   
   const [phase,   setPhase]   = useState("booting");     // booting|setup|creating|done|exists|login
@@ -866,34 +866,9 @@ export default function CadastroInicial() {
     setMasterInfo(null);
   };
 
-  const goLogin = () => setPhase("login");
-
-  // ── Login redirect stub ───────────────────────────────────────────────────────
-  if (phase === "login") {
-    return (
-      <>
-        <Styles />
-        <div className="es-root">
-          <div className="bg-dots" /><div className="bg-orb bg-orb-1" /><div className="bg-orb bg-orb-2" />
-          <div className="card anim-scale" style={{ padding:"44px 40px", textAlign:"center" }}>
-            <div style={{ width:56,height:56,borderRadius:14,background:"linear-gradient(135deg,#1A5FAB,#2E7DD1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",boxShadow:"0 8px 24px rgba(26,95,171,.35)" }}>
-              <i className="ti ti-lock" style={{ fontSize:26, color:"white" }} />
-            </div>
-            <h2 style={{ fontFamily:"Outfit",fontSize:20,fontWeight:800,color:"#0C1F35",marginBottom:6 }}>
-              Redirecionando para o Login
-            </h2>
-            <p style={{ fontSize:13,color:"#64748B",marginBottom:20 }}>
-              Em uma aplicação real, você seria direcionado para a tela de login.<br/>
-              <span style={{ fontSize:12,color:"#94A3B8" }}>Monte os componentes juntos para o fluxo completo.</span>
-            </p>
-            <button className="btn-ghost" onClick={handleReset} style={{ margin:"0 auto" }}>
-              <i className="ti ti-refresh" style={{ fontSize:13 }} />Reiniciar Demo
-            </button>
-          </div>
-        </div>
-      </>
-    );
-  }
+ const goLogin = () => {
+  if (onVoltar) onVoltar();
+};
 
   return (
     <>

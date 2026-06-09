@@ -17,6 +17,7 @@ const hashPw = async (pw) => {
 
 const validateEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
+// ... o resto do código continua normal aqui para baixo
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const Styles = () => (
   <style>{`
@@ -341,8 +342,7 @@ const LeftPanel = () => {
 };
 
 // ─── Main Component (Agora integrado com o Banco de Dados) ────────────────────
-export default function LoginExpressoSul({ onLoginSuccess }) {
-  // ✅ Puxando a conexão do banco de dados real
+export default function LoginExpressoSul({ onLoginSuccess, onMudarTela }) {
  const { isReady, executeSql } = useDatabase();
 
   const [email,      setEmail]      = useState("");
@@ -692,6 +692,17 @@ export default function LoginExpressoSul({ onLoginSuccess }) {
                 )}
               </button>
             </form>
+
+{/* Botão de se cadastrar na tela de Login */}
+<div style={{ marginTop: 16, textAlign: "center", fontSize: 13 }}>
+  <span style={{ color: "#64748B" }}>Não tem uma conta? </span>
+  <button 
+    onClick={() => onMudarTela("cadastro")} // Essa função vai avisar o App.jsx
+    style={{ background: "none", border: "none", color: "#1A5FAB", fontWeight: 600, cursor: "pointer", padding: 0 }}
+  >
+    Cadastre-se aqui
+  </button>
+</div>
 
             {/* Demo access */}
             <div style={{marginTop:18}}>

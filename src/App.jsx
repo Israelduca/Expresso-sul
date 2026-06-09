@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import LoginExpressoSul from './screens/LoginExpressoSul'; 
 import CadastroClientes from './screens/CadastroClientes'; 
 import CadastroPedidos from './screens/CadastroPedidos';   
-// ✅ O seu import que acabamos de arrumar
 import AcompanhamentoEntregas from './screens/AcompanhamentoEntregas';
+import CadastroInicial from "./screens/CadastroInicial";
 
 const COLORS = {
   navy: "#0C1F35",
@@ -16,22 +16,37 @@ const COLORS = {
 export default function App() {
   const [usuarioLogado, setUsuarioLogado] = useState(null);
   const [telaAtiva, setTelaAtiva] = useState('clientes'); // 'clientes' | 'pedidos' | 'acompanhamento'
+  
+  // ✅ NOVO ESTADO: Controla se o visitante vê o Login ou o Cadastro
+  const [modoAuth, setModoAuth] = useState('login'); // 'login' | 'cadastro'
 
   const handleLogout = () => {
     setUsuarioLogado(null);
     setTelaAtiva('clientes'); 
+    setModoAuth('login'); // Volta para a tela de login ao sair
   };
 
-  // 🔒 BARREIRA DE SEGURANÇA
+  // 🔒 BARREIRA DE SEGURANÇA (Visitantes)
   if (!usuarioLogado) {
+    // Se ele clicou em "Cadastre-se aqui"
+    if (modoAuth === 'cadastro') {
+      return (
+        <CadastroInicial 
+          onVoltar={() => setModoAuth('login')} // Botão para voltar ao login se ele desistir
+        />
+      );
+    }
+
+    // Se não, mostra a tela padrão de Login
     return (
       <LoginExpressoSul
         onLoginSuccess={(usuario) => setUsuarioLogado(usuario)} 
+        onMudarTela={(tela) => setModoAuth(tela)} // ✅ O Walkie-talkie que o seu botão usa
       />
     );
   }
 
-  // 🔓 PAINEL AUTENTICADO
+  // 🔓 PAINEL AUTENTICADO (Usuário Logado)
   return (
     <div style={{ display: 'flex', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
       
@@ -75,7 +90,7 @@ export default function App() {
           Pedidos / Fretes
         </button>
 
-        {/* ✅ NOVO BOTÃO: Entregas Ao Vivo */}
+        {/* Botão Entregas Ao Vivo */}
         <button 
           onClick={() => setTelaAtiva('acompanhamento')}
           style={{
@@ -108,7 +123,6 @@ export default function App() {
       <div style={{ flex: 1, background: '#F8FAFC', overflowY: 'auto' }}>
         {telaAtiva === 'clientes' && <CadastroClientes />}
         {telaAtiva === 'pedidos' && <CadastroPedidos />}
-        {/* ✅ NOVA REGRA: Exibindo o Acompanhamento */}
         {telaAtiva === 'acompanhamento' && <AcompanhamentoEntregas />}
       </div>
 

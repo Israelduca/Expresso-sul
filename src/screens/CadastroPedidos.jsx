@@ -933,9 +933,10 @@ export default function CadastroPedidos() {
             <div style={{display:"flex", flexDirection:"column", gap:16}}>
 
               {/* Section 1 — Cliente */}
-              <div className="card">
-                <div className="sec-head">
-                  <div className={`sec-step${form.clienteId?" done":""}`}>
+              
+<div className="card" style={{ overflow: "visible" }}>
+  <div className="sec-head" style={{ borderTopLeftRadius: 11, borderTopRightRadius: 11 }}>
+    <div className={`sec-step${form.clienteId?" done":""}`}>
                     {form.clienteId ? <i className="ti ti-check" style={{fontSize:12}} /> : "1"}
                   </div>
                   <div>

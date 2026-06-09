@@ -549,7 +549,7 @@ export default function AcompanhamentoEntregas() {
     { key:"pendente",  label:"Pendente",  count:stats.pendentes, color:C.slate500 },
     { key:"entregue",  label:"Entregues", count:stats.entregues, color:C.green700 },
   ];
-
+// forçando rebuild da vercel
   return (
     <>
       <Styles />
